@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>탕비실 LIVE</title>
+
+  <style>
+    body {
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #chat {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>☕ 탕비실 LIVE</h1>
+
+<button onclick="toggleChat()">
+  ⏸️ 일시정지
+</button>
+
+<div id="chat"></div>
+
+<script>
+
+const employees = [
+  {
+    name: "김대리",
+    emoji: "😢",
+    phrases: [
+      "퇴근하고 싶습니다.",
+      "집에 가고 싶습니다.",
+      "월급날인가요?"
+    ]
+  },
+
+  {
+    name: "박과장",
+    emoji: "🤓",
+    phrases: [
+      "근거가 있습니까?",
+      "데이터를 확인하겠습니다.",
+      "성급한 판단입니다."
+    ]
+  },
+
+  {
+    name: "엠지인턴",
+    emoji: "😊",
+    phrases: [
+      "그거 제 담당 아닌데요.",
+      "좋은 하루입니다.",
+      "안 좋은 하루입니다.",
+      "네. 왜요?",
+      "이거 왁뿌볼인데요.",
+      "제가 잘못한 건가요?"
+    ]
+  },
+
+{
+  name: "정체불명 계약직",
+  emoji: "👻",
+  phrases: [
+    "저는 존재하지 않습니다.",
+    "오늘도 출근한 적 없습니다.",
+    "출근한 적 없는데 왜 출근 기록이 있죠?",
+    "제 부서는 어디입니까?",
+    "방금 저 본 사람 있나요?"
+  ]
+},
+
+{
+  name: "복사기 담당관",
+  emoji: "😎",
+  phrases: [
+    "복사기가 또 화났습니다.",
+    "A4 용지가 부족합니다.",
+    "복사기와 대화 중입니다.",
+    "오늘은 종이를 먹지 않았습니다.",
+    "복사기와 합의 중입니다.",
+  ]
+},
+{
+  name: "소문전문가",
+  emoji: "🤡",
+  phrases: [
+    "펭귄이 승진했다는 소문이 있습니다.",
+    "7층에서 이상한 일이 있었다고 합니다.",
+    "확실하지는 않습니다.",
+    "확실하지는 않습니다만...",
+    "들은 이야기인데요...",
+    "아무에게도 말하지 마세요.",
+    "CEO가 사실 세 마리의 너구리라는 소문이 있습니다.",
+  ]
+},
+
+{
+  name: "펭귄 대리",
+  emoji: "🐧",
+  phrases: [
+    "꽥.",
+    "회의실이 춥지 않습니다.",
+    "오늘도 최선을 다해 미끄러졌습니다.",
+    "생선비 지원은 언제 나옵니까?"
+  ]
+},
+
+{
+  name: "신입 3호기",
+  emoji: "🤖",
+  phrases: [
+    "업무 만족도 83%입니다.",
+    "농담을 시도하겠습니다.",
+    "실패했습니다.",
+    "인간들이 이해되지 않습니다."
+  ]
+},
+
+{
+  name: "탕비실 수호자",
+  emoji: "☕",
+  phrases: [
+    "커피가 부족합니다.",
+    "커피가 매우 부족합니다.",
+    "상황이 심각합니다.",
+    "커피가 완전히 부족합니다."
+  ]
+},
+
+{
+  name: "클립보드 관리자",
+  emoji: "📎",
+  phrases: [
+    "누가 클립을 훔쳐갔습니다.",
+    "클립 재고가 위험 수준입니다.",
+    "클립 사용량이 비정상적입니다.",
+    "이 회사는 클립을 너무 많이 씁니다."
+  ]
+},
+
+{
+  name: "엑셀무당",
+  emoji: "📊",
+  phrases: [
+    "피벗 테이블이 그렇게 말했습니다.",
+    "엑셀의 계시를 받았습니다.",
+    "그래프가 불길합니다.",
+    "VLOOKUP이 저를 버렸습니다."
+  ]
+},
+
+{
+  name: "퇴사예정자",
+  emoji: "🚪",
+  phrases: [
+    "오늘은 아닙니다.",
+    "내일일 수도 있습니다.",
+    "사직서를 열 번쯤 썼습니다.",
+    "마음속으로는 이미 퇴사했습니다."
+  ]
+},
+
+{
+  name: "야근요정",
+  emoji: "🦝",
+  phrases: [
+    "집이 기억나지 않습니다.",
+    "벌써 밤인가요?",
+    "회사 와이파이와 정이 들었습니다.",
+    "퇴근이 전설 속 이야기 같습니다."
+  ]
+}
+];
+
+const chat = document.getElementById("chat");
+
+function addMessage(name, text) {
+
+  const div = document.createElement("div");
+
+  div.className = "message";
+
+  div.innerHTML = `
+    <b>${name}</b><br>
+    ${text}
+  `;
+
+  chat.prepend(div);
+}
+
+function randomChat() {
+
+  const employee =
+    employees[
+      Math.floor(Math.random() * employees.length)
+    ];
+
+  const phrase =
+    employee.phrases[
+      Math.floor(
+        Math.random() * employee.phrases.length
+      )
+    ];
+
+addMessage(
+  employee.emoji + " " + employee.name,
+  phrase
+);
+}
+
+let running = true;
+
+let chatInterval = setInterval(randomChat, 3000);
+
+function toggleChat() {
+
+  if (running) {
+    clearInterval(chatInterval);
+    running = false;
+  } else {
+    chatInterval = setInterval(randomChat, 3000);
+    running = true;
+  }
+}
+
+</script>
+
+</body>
+</html>
