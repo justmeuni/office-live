@@ -27,12 +27,42 @@
       border-bottom: 1px solid #ddd;
       padding-bottom: 10px;
     }
+    
+    #dashboard {
+      max-width: 700px;
+      margin: auto;
+      margin-bottom: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
   </style>
 </head>
 
 <body>
 
 <h1>☕ 탕비실 LIVE</h1>
+
+<div id="dashboard">
+
+  <h3>📈 회사 현황</h3>
+
+  ☕ 커피 재고:
+  <span id="coffee">80</span>%<br>
+
+  😡 직원 만족도:
+  <span id="happiness">50</span>%<br>
+
+  🐧 펭귄 영향력:
+  <span id="penguin">10</span>%<br>
+
+  👻 실존 가능성:
+  <span id="ghost">90</span>%<br>
+
+</div>
+
+<br>
 
 <button onclick="toggleChat()">
   ⏸️ 일시정지
@@ -189,6 +219,11 @@ const employees = [
 }
 ];
 
+let coffee = 80;
+let happiness = 50;
+let penguin = 10;
+let ghost = 90;
+  
 const chat = document.getElementById("chat");
 
 function addMessage(name, text) {
@@ -229,7 +264,43 @@ let running = true;
 
 let chatInterval = setInterval(randomChat, 3000);
 
-function toggleChat() {
+function toggleChat()
+
+  function updateDashboard() {
+
+  coffee += Math.floor(Math.random() * 11) - 5;
+
+  if(coffee < 0) coffee = 0;
+  if(coffee > 100) coffee = 100;
+
+  happiness += Math.floor(Math.random() * 7) - 3;
+
+  if(coffee < 20) {
+    happiness -= 5;
+  }
+
+  if(happiness < 0) happiness = 0;
+  if(happiness > 100) happiness = 100;
+
+  penguin += Math.floor(Math.random() * 5);
+
+  if(penguin > 100) {
+    penguin = 100;
+  }
+
+  ghost += Math.floor(Math.random() * 11) - 5;
+
+  if(ghost < 0) ghost = 0;
+  if(ghost > 100) ghost = 100;
+
+  document.getElementById("coffee").textContent = coffee;
+  document.getElementById("happiness").textContent = happiness;
+  document.getElementById("penguin").textContent = penguin;
+  document.getElementById("ghost").textContent = ghost;
+
+}
+  
+{
 
   if (running) {
     clearInterval(chatInterval);
@@ -240,6 +311,8 @@ function toggleChat() {
   }
 }
 
+setInterval(updateDashboard, 5000);
+  
 </script>
 
 </body>
