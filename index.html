@@ -264,9 +264,19 @@ let running = true;
 
 let chatInterval = setInterval(randomChat, 3000);
 
-function toggleChat()
+function toggleChat() {
 
-  function updateDashboard() {
+  if (running) {
+    clearInterval(chatInterval);
+    running = false;
+  } else {
+    chatInterval = setInterval(randomChat, 3000);
+    running = true;
+  }
+
+}
+
+function updateDashboard() {
 
   coffee += Math.floor(Math.random() * 11) - 5;
 
@@ -299,16 +309,39 @@ function toggleChat()
   document.getElementById("ghost").textContent = ghost;
 
 }
-  
-{
 
-  if (running) {
-    clearInterval(chatInterval);
-    running = false;
-  } else {
-    chatInterval = setInterval(randomChat, 3000);
-    running = true;
+setInterval(updateDashboard, 5000);
+
+  coffee += Math.floor(Math.random() * 11) - 5;
+
+  if(coffee < 0) coffee = 0;
+  if(coffee > 100) coffee = 100;
+
+  happiness += Math.floor(Math.random() * 7) - 3;
+
+  if(coffee < 20) {
+    happiness -= 5;
   }
+
+  if(happiness < 0) happiness = 0;
+  if(happiness > 100) happiness = 100;
+
+  penguin += Math.floor(Math.random() * 5);
+
+  if(penguin > 100) {
+    penguin = 100;
+  }
+
+  ghost += Math.floor(Math.random() * 11) - 5;
+
+  if(ghost < 0) ghost = 0;
+  if(ghost > 100) ghost = 100;
+
+  document.getElementById("coffee").textContent = coffee;
+  document.getElementById("happiness").textContent = happiness;
+  document.getElementById("penguin").textContent = penguin;
+  document.getElementById("ghost").textContent = ghost;
+
 }
 
 setInterval(updateDashboard, 5000);
